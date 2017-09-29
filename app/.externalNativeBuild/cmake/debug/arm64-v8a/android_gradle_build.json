@@ -1,0 +1,53 @@
+
+{
+	"buildFiles" : 
+	[
+		"/home/taewon/git/test/tensorflow-classifier-android/app/CMakeLists.txt"
+	],
+	"cleanCommands" : 
+	[
+		"/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/cmake/bin/cmake --build /home/taewon/git/test/tensorflow-classifier-android/app/.externalNativeBuild/cmake/debug/arm64-v8a --target clean"
+	],
+	"cppFileExtensions" : [ "cc" ],
+	"libraries" : 
+	{
+		"tensorflow_demo-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "tensorflow_demo",
+			"buildCommand" : "/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/cmake/bin/cmake --build /home/taewon/git/test/tensorflow-classifier-android/app/.externalNativeBuild/cmake/debug/arm64-v8a --target tensorflow_demo",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=aarch64-none-linux-android --gcc-toolchain=/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64 --sysroot=/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sysroot  -Dtensorflow_demo_EXPORTS -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/arm64-v8a/include -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sysroot/usr/include/aarch64-linux-android -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/taewon/git/test/tensorflow-classifier-android/app/src/main/cpp/imageutils_jni.cc",
+					"workingDirectory" : "/home/taewon/git/test/tensorflow-classifier-android/app/.externalNativeBuild/cmake/debug/arm64-v8a"
+				},
+				
+				{
+					"flags" : "  --target=aarch64-none-linux-android --gcc-toolchain=/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64 --sysroot=/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sysroot  -Dtensorflow_demo_EXPORTS -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/arm64-v8a/include -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sysroot/usr/include/aarch64-linux-android -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/taewon/git/test/tensorflow-classifier-android/app/src/main/cpp/rgb2yuv.cc",
+					"workingDirectory" : "/home/taewon/git/test/tensorflow-classifier-android/app/.externalNativeBuild/cmake/debug/arm64-v8a"
+				},
+				
+				{
+					"flags" : "  --target=aarch64-none-linux-android --gcc-toolchain=/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64 --sysroot=/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sysroot  -Dtensorflow_demo_EXPORTS -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/arm64-v8a/include -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -isystem /home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/sysroot/usr/include/aarch64-linux-android -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/taewon/git/test/tensorflow-classifier-android/app/src/main/cpp/yuv2rgb.cc",
+					"workingDirectory" : "/home/taewon/git/test/tensorflow-classifier-android/app/.externalNativeBuild/cmake/debug/arm64-v8a"
+				}
+			],
+			"output" : "/home/taewon/git/test/tensorflow-classifier-android/app/build/intermediates/cmake/debug/obj/arm64-v8a/libtensorflow_demo.so",
+			"toolchain" : "9547278637354944851"
+		}
+	},
+	"toolchains" : 
+	{
+		"9547278637354944851" : 
+		{
+			"cCompilerExecutable" : "/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang",
+			"cppCompilerExecutable" : "/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+		}
+	}
+}

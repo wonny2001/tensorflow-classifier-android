@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/taewon/Downloads/eclipse/sdk/android-sdk-linux/.android/build-cache/6aa2e56f90ac982de544c76c42c1e148661bcf5a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="08b7bb0240c9df70b9af7c07496023df477d2640">
+        <dex dex="/home/taewon/git/test/tensorflow-classifier-android/app/build/intermediates/pre-dexed/debug/classes_50430f13b0064285ddeee1537338b70a96872338.jar" />
+    </item>
+
+</items>

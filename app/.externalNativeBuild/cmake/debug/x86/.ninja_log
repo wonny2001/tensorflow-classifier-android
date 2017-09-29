@@ -1,0 +1,5 @@
+# ninja log v5
+0	67	0	CMakeFiles/tensorflow_demo.dir/src/main/cpp/rgb2yuv.cc.o	271f848d0da5c6c2
+0	73	0	CMakeFiles/tensorflow_demo.dir/src/main/cpp/yuv2rgb.cc.o	b0cc2627d94da155
+0	94	0	CMakeFiles/tensorflow_demo.dir/src/main/cpp/imageutils_jni.cc.o	e84ec98c51a1da0c
+95	135	0	../../../../build/intermediates/cmake/debug/obj/x86/libtensorflow_demo.so	866a478a73b65ad8
