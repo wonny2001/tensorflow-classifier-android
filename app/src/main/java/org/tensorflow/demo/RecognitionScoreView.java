@@ -25,6 +25,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import org.tensorflow.demo.Classifier.Recognition;
+import org.tensorflow.demo.env.Utils;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class RecognitionScoreView extends View implements ResultsView {
   private final Paint fgPaint;
   private final Paint bgPaint;
   final CharSequence[] emotions = { "Anger", "Disgust", "Happy", "Sad", "Surprise", "Neutral" };
+    private Context mContext;
 
   public RecognitionScoreView(final Context context, final AttributeSet set) {
     super(context, set);
@@ -47,7 +49,9 @@ public class RecognitionScoreView extends View implements ResultsView {
     fgPaint.setTextSize(textSizePx);
 
     bgPaint = new Paint();
-    bgPaint.setColor(0xcc4285f4);
+//    bgPaint.setColor(0xcc4285f4);
+    bgPaint.setColor(0xfff1f1f1);
+    mContext = context;
   }
 
   @Override
@@ -65,19 +69,17 @@ public class RecognitionScoreView extends View implements ResultsView {
     int y2 = (int) (fgPaint.getTextSize() * 1.5f);
 
 
+
     canvas.drawPaint(bgPaint);
     fgPaint.setColor(Color.BLACK);
 
     if (results != null) {
       int idx=0;
       for (final Recognition recog : results) {
-        canvas.drawText(recog.getTitle() + "_" + emotions[idx].toString() + ": " + recog.getConfidence(), x, y, fgPaint);
+        canvas.drawText(recog.getTitle() + "_" + emotions[Integer.parseInt(recog.getTitle())].toString() + ": " + recog.getConfidence(), x, y, fgPaint);
         y += fgPaint.getTextSize() * 1.5f;
         idx++;
       }
-    }
-
-    if (results != null) {
 
       int maxIndex = Integer.parseInt(results.get(0).getTitle());
       for (int i = 0; i < results.size(); i++) {
@@ -88,14 +90,20 @@ public class RecognitionScoreView extends View implements ResultsView {
             } else {
               fgPaint.setColor(Color.BLACK);
             }
-            canvas.drawText(results.get(j).getTitle() + "_" + emotions[i].toString() + ": " + results.get(j).getConfidence(), x2, y2, fgPaint);
+            canvas.drawText(i + "_" + emotions[i].toString() + ": " + results.get(j).getConfidence(), x2, y2, fgPaint);
             break;
           }
         }
         y2 += fgPaint.getTextSize() * 1.5f;
       }
-    }
 
+      String appName = Utils.getTopActivity(getContext());
+
+      Log.e("TW", "appName = " +appName);
+      fgPaint.setColor(Color.BLUE);
+      canvas.drawText("Pkg : " + appName, x, y+10, fgPaint);
+
+    }
 
   }
 }

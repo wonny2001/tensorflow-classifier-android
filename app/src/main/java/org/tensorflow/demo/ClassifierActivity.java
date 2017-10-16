@@ -16,7 +16,10 @@
 
 package org.tensorflow.demo;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -46,11 +49,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.Vector;
 import org.tensorflow.demo.OverlayView.DrawCallback;
 import org.tensorflow.demo.env.BorderedText;
 import org.tensorflow.demo.env.ImageUtils;
 import org.tensorflow.demo.env.Logger;
+import org.tensorflow.demo.env.Utils;
 
 public class ClassifierActivity extends CameraActivity implements OnImageAvailableListener {
   private static final Logger LOGGER = new Logger();
@@ -93,6 +99,17 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
   private static final String LABEL_FILE =
           "file:///android_asset/retrained_labels.txt";
 
+//  private static final int INPUT_SIZE = 128;
+//  //  private static final int INPUT_SIZE = 120;
+//  private static final int IMAGE_MEAN = 128;
+//  private static final float IMAGE_STD = 128f;
+//  private static final String INPUT_NAME = "input";
+//  private static final String OUTPUT_NAME = "final_result";
+//
+//  private static final String MODEL_FILE =
+//          "file:///android_asset/retrained_graph.pb"; // or optimized_graph.pb
+//  private static final String LABEL_FILE =
+//          "file:///android_asset/retrained_labels.txt";
 
   private static final boolean SAVE_PREVIEW_BITMAP = true;
 
@@ -278,15 +295,18 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
   private void makeCSVData(List<Classifier.Recognition> results) {
     Log.e("TW", "results.size() : "+results.size());
 
+    String appName = Utils.getTopActivity(getApplicationContext());
+    Log.e("TW", "results.size() : "+results.size());
+
     for(int i=0;i<results.size();i++) {
       for (int j = 0; j < results.size(); j++) {
         if (results.get(j).getTitle().equals("" + i)) {//anger
-          outputString = outputString + results.get(j).getTitle() + "_" + results.get(j).getConfidence();
+          outputString = outputString + results.get(j).getConfidence();
           break;
         }
       }
       if( i == results.size()-1 ) {
-        outputString = outputString + "\n";
+        outputString = outputString + "," + appName + "\n";
       } else {
         outputString = outputString + ",";
       }
@@ -296,6 +316,36 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     Log.e("TW", "output : "+outputString);
   }
 
+//  public static String getTopActivity(Context mContext) {
+//    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//      //For third party app, bcz cannot use Activity Manager.
+//      //Need : Settings->Security->Apps with usage access
+//
+//      String currentApp = null;
+//      UsageStatsManager usm = (UsageStatsManager) mContext.getSystemService(Context.USAGE_STATS_SERVICE);
+//      long time = System.currentTimeMillis();
+//      List<UsageStats> applist = usm.queryUsageStats(UsageStatsManager.INTERVAL_BEST, time - 10 * 1000, time);
+//      if (applist != null && applist.size() > 0) {
+//        SortedMap<Long, UsageStats> mySortedMap = new TreeMap<Long, UsageStats>();
+//        for (UsageStats usageStats : applist) {
+//          mySortedMap.put(usageStats.getLastTimeUsed(), usageStats);
+//
+//        }
+//        if (mySortedMap != null && !mySortedMap.isEmpty()) {
+//          currentApp = mySortedMap.get(mySortedMap.lastKey()).getPackageName();
+//        }
+//      }
+//      return currentApp;
+//    } else {
+//      //For preload map only can use ActivityManager
+//      ActivityManager activityManager = (ActivityManager) mContext
+//              .getSystemService(Context.ACTIVITY_SERVICE);
+//      List<ActivityManager.RunningTaskInfo> info;
+//      info = activityManager.getRunningTasks(1);
+//      return info != null && info.size() > 0 && info.get(0) != null
+//              ? info.get(0).topActivity.getClassName() : "";
+//    }
+//  }
   @Override
   public void onSetDebug(boolean debug) {
     classifier.enableStatLogging(debug);
@@ -348,7 +398,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
       // Creates a file in the primary external storage space of the
       // current application.
       // If the file does not exists, it is created.
-      File testFile = new File(this.getExternalFilesDir(null), "TestFile.csv");
+      File testFile = new File(this.getExternalFilesDir(null), outFileName/*"TestFile.csv"*/);
       if (!testFile.exists())
         testFile.createNewFile();
 
@@ -375,14 +425,16 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 
     final CharSequence[] items = { "Clock", "Gallery", "SNS", "MobileOffice", "Game", "Etc" };
 
-    if (listener == null)
-      listener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface paramDialogInterface,
-                            int paramInt) {
-          paramDialogInterface.dismiss();
-        }
-      };
+//    if (listener == null)
+//      listener = new DialogInterface.OnClickListener() {
+//        @Override
+//        public void onClick(DialogInterface paramDialogInterface,
+//                            int paramInt) {
+//          Log.e("TW", "OK clicked");
+//          finish();
+//          paramDialogInterface.dismiss();
+//        }
+//      };
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle(title);
 
@@ -391,17 +443,26 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
               public void onClick(DialogInterface dialog, int item) {
                 Log.e("TW", "item : "+item);
                 Calendar cal = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("YY-MM-dd-HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat("YYMMdd_HHmmsss");
                 String test = sdf.format(cal.getTime());
 
-                outFileName = items[item].toString() + "_" + test + "_fileCnt_" + mFileCnt;
+                outFileName = items[item].toString() + "_" + test + "_line_" + mFileCnt + ".csv";
+
                 Log.e("TW", "outFileName : "+outFileName);
               }
             });
-    builder.setPositiveButton(btnText[0], listener);
-    if (btnText.length != 1) {
-      builder.setNegativeButton(btnText[1], listener);
-    }
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int whichButton) {
+//        Toast.makeText(WeightTestActivity.this,
+//                "Now" + selected[0], Toast.LENGTH_SHORT).show();
+          Log.e("TW", "OK clicked");
+          finish();
+      }
+    });
+//    if (btnText.length != 1) {
+//      builder.setNegativeButton(btnText[1], listener);
+//    }
     builder.show();
   }
 
@@ -433,7 +494,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
       public void run() {
         doubleBackToExitPressedOnce=false;
       }
-    }, 1000);
+    }, 2000);
   }
 
 }

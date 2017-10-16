@@ -35,6 +35,7 @@ import android.widget.Toast;
 import java.nio.ByteBuffer;
 import org.tensorflow.demo.env.Logger;
 import org.tensorflow.demo.R;
+import android.content.Intent;
 
 public abstract class CameraActivity extends Activity implements OnImageAvailableListener {
   private static final Logger LOGGER = new Logger();
@@ -53,6 +54,8 @@ public abstract class CameraActivity extends Activity implements OnImageAvailabl
   private HandlerThread handlerThread;
 
   int currentSwitchedCamera = CAMERA_FACE;
+
+  Intent topChkService;
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     LOGGER.d("onCreate " + this);
@@ -76,9 +79,8 @@ public abstract class CameraActivity extends Activity implements OnImageAvailabl
 
       }
     });
-
-
-
+//    topChkService = new Intent(getApplicationContext(), TopCheckService.class);
+//    startService(topChkService);
   }
 
   @Override
@@ -143,6 +145,10 @@ public abstract class CameraActivity extends Activity implements OnImageAvailabl
     } catch (final InterruptedException e) {
       LOGGER.e(e, "Exception!");
     }
+
+//    if(topChkService !=null) {
+//      stopService(topChkService);
+//    }
 
     super.onDestroy();
   }
