@@ -27,6 +27,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.media.Image;
 import android.media.Image.Plane;
@@ -115,7 +116,8 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 
   private static final boolean MAINTAIN_ASPECT = true;
 
-  private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
+  private static final Size DESIRED_PREVIEW_SIZE = new Size(960, 640);
+//  private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
 //  private static final Size DESIRED_PREVIEW_SIZE = new Size(100, 100);
 
   private Classifier classifier;
@@ -192,7 +194,10 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     LOGGER.i("Initializing at size %dx%d", previewWidth, previewHeight);
     rgbBytes = new int[previewWidth * previewHeight];
     rgbFrameBitmap = Bitmap.createBitmap(previewWidth, previewHeight, Config.ARGB_8888);
+
     croppedBitmap = Bitmap.createBitmap(INPUT_SIZE, INPUT_SIZE, Config.ARGB_8888);
+
+//    croppedBitmap = ImageUtils.cropCenterBitmap(croppedBitmap, INPUT_SIZE, INPUT_SIZE);
 
     frameToCropTransform =
         ImageUtils.getTransformationMatrix(
@@ -264,11 +269,15 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 
     rgbFrameBitmap.setPixels(rgbBytes, 0, previewWidth, 0, 0, previewWidth, previewHeight);
     final Canvas canvas = new Canvas(croppedBitmap);
-    canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
+
+//    canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
+    Bitmap bb = ImageUtils.cropCenterBitmap(rgbFrameBitmap, INPUT_SIZE, INPUT_SIZE);
+    bb = RotateBitmap(bb, 270);
+    canvas.drawBitmap(bb, null, new Rect(0,0,INPUT_SIZE,INPUT_SIZE), null);
 
     // For examining the actual TF input.
     if (SAVE_PREVIEW_BITMAP) {
-      ImageUtils.saveBitmap(croppedBitmap);
+      ImageUtils.saveBitmap(bb);
     }
 
     runInBackground(
@@ -290,6 +299,13 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         });
 
     Trace.endSection();
+  }
+
+  public static Bitmap RotateBitmap(Bitmap source, float angle)
+  {
+    Matrix matrix = new Matrix();
+    matrix.postRotate(angle);
+    return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
   }
 
   private void makeCSVData(List<Classifier.Recognition> results) {

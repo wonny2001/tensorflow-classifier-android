@@ -26,12 +26,14 @@
     <org.tensorflow.demo.RecognitionScoreView
         android:id="@+id/results"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true" />
 
     <org.tensorflow.demo.OverlayView
         android:id="@+id/debug_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        />
+
 </RelativeLayout>

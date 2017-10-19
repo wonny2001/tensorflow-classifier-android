@@ -305,4 +305,44 @@ public class ImageUtils {
 
     return matrix;
   }
+
+  /**
+   * Bitmap 이미지를 가운데를 기준으로 w, h 크기 만큼 crop한다.
+   *
+   * @param src 원본
+   * @param w 넓이
+   * @param h 높이
+   * @return
+   */
+  public static Bitmap cropCenterBitmap(Bitmap src, int w, int h) {
+    if(src == null)
+      return null;
+
+    int width = src.getWidth();
+    int height = src.getHeight();
+
+    if(width < w && height < h)
+      return src;
+
+    int x = 0;
+    int y = 0;
+
+    if(width > w)
+      x = (width - w)/2;
+
+    if(height > h)
+      y = (height - h)/2;
+
+    int cw = w; // crop width
+    int ch = h; // crop height
+
+    if(w > width)
+      cw = width;
+
+    if(h > height)
+      ch = height;
+
+    return Bitmap.createBitmap(src, x, y, cw, ch);
+  }
+
 }

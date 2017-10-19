@@ -53,7 +53,7 @@ public class RecognitionScoreView extends View implements ResultsView {
 
     bgPaint = new Paint();
 //    bgPaint.setColor(0xcc4285f4);
-    bgPaint.setColor(0xfff1f1f1);
+    bgPaint.setColor(Color.TRANSPARENT);
     mContext = context;
   }
 
@@ -79,19 +79,8 @@ public class RecognitionScoreView extends View implements ResultsView {
           Color.WHITE,
           Color.YELLOW
   };
-  private static int mCurrentColorIndex = 0;
 
-  private Paint mFacePositionPaint;
-  private Paint mIdPaint;
-  private Paint mBoxPaint;
-
-  private volatile Face mFace;
-  private int mFaceId;
-  private float mFaceHappiness;
-
-  private int mPreviewWidth;
   private float mWidthScaleFactor = 1.0f;
-  private int mPreviewHeight;
   private float mHeightScaleFactor = 1.0f;
   private int mFacing = CameraSource.CAMERA_FACING_FRONT;
 
@@ -137,66 +126,20 @@ public class RecognitionScoreView extends View implements ResultsView {
       Log.e("TW", "appName = " +appName);
       fgPaint.setColor(Color.BLUE);
       canvas.drawText("Pkg : " + appName, x, y+10, fgPaint);
-
     }
+    Paint mBoxPaint;
 
-    drawFace(canvas);
-  }
+    mBoxPaint = new Paint();
+    mBoxPaint.setColor(Color.BLUE);
+    mBoxPaint.setStyle(Paint.Style.STROKE);
+    mBoxPaint.setStrokeWidth(5);
 
-  private void drawFace(Canvas canvas) {
-    Face face = mFace;
-    if (face == null) {
-      return;
-    }
-
-
-    // Draws a circle at the position of the detected face, with the face's track id below.
-    float x = translateX(face.getPosition().x + face.getWidth() / 2);
-    float y = translateY(face.getPosition().y + face.getHeight() / 2);
-    canvas.drawCircle(x, y, FACE_POSITION_RADIUS, mFacePositionPaint);
-    canvas.drawText("id: " + mFaceId, x + ID_X_OFFSET, y + ID_Y_OFFSET, mIdPaint);
-    canvas.drawText("happiness: " + String.format("%.2f", face.getIsSmilingProbability()), x - ID_X_OFFSET, y - ID_Y_OFFSET, mIdPaint);
-    canvas.drawText("right eye: " + String.format("%.2f", face.getIsRightEyeOpenProbability()), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
-    canvas.drawText("left eye: " + String.format("%.2f", face.getIsLeftEyeOpenProbability()), x - ID_X_OFFSET*2, y - ID_Y_OFFSET*2, mIdPaint);
-
-    // Draws a bounding box around the face.
-    float xOffset = scaleX(face.getWidth() / 2.0f);
-    float yOffset = scaleY(face.getHeight() / 2.0f);
-    float left = x - xOffset;
-    float top = y - yOffset;
-    float right = x + xOffset;
-    float bottom = y + yOffset;
+    float wh = 550;
+    float left = 240;
+    float top = 900;
+    float right = left + wh;
+    float bottom = top + wh;
     canvas.drawRect(left, top, right, bottom, mBoxPaint);
   }
 
-  public float scaleX(float horizontal) {
-    return horizontal * mWidthScaleFactor;
-  }
-
-  /**
-   * Adjusts a vertical value of the supplied value from the preview scale to the view scale.
-   */
-  public float scaleY(float vertical) {
-    return vertical * mHeightScaleFactor;
-  }
-
-  /**
-   * Adjusts the x coordinate from the preview's coordinate system to the view coordinate
-   * system.
-   */
-  public float translateX(float x) {
-    if (mFacing == CameraSource.CAMERA_FACING_FRONT) {
-      return getWidth() - scaleX(x);
-    } else {
-      return scaleX(x);
-    }
-  }
-
-  /**
-   * Adjusts the y coordinate from the preview's coordinate system to the view coordinate
-   * system.
-   */
-  public float translateY(float y) {
-    return scaleY(y);
-  }
 }
