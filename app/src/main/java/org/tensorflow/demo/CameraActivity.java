@@ -20,6 +20,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.Image.Plane;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.Build;
@@ -31,10 +32,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.nio.ByteBuffer;
 import org.tensorflow.demo.env.Logger;
-import org.tensorflow.demo.R;
+import org.tensorflow.demo.env.Utils;
+
 import android.content.Intent;
 
 public abstract class CameraActivity extends Activity implements OnImageAvailableListener {
@@ -55,32 +58,34 @@ public abstract class CameraActivity extends Activity implements OnImageAvailabl
 
   int currentSwitchedCamera = CAMERA_FACE;
 
-  Intent topChkService;
+  private Button mRecbtn;
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     LOGGER.d("onCreate " + this);
     super.onCreate(null);
+    Utils.SAVE_PREVIEW_BITMAP = false;
+
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     setContentView(R.layout.activity_camera);
 
-    Button switch_btn = (Button) findViewById(R.id.switch_btn);
-
-    switch_btn.setOnClickListener(new View.OnClickListener() {
+    mRecbtn = (Button) findViewById(R.id.rec_btn);
+    mRecbtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         // Add your code in here!
-        currentSwitchedCamera = currentSwitchedCamera == CAMERA_BACK ? CAMERA_FACE : CAMERA_BACK;
-        if (hasPermission()) {
-          setFragment();
-        } else {
-          requestPermission();
-        }
 
+        if( Utils.SAVE_PREVIEW_BITMAP) {
+          mRecbtn.setTextColor(Color.RED);
+          mRecbtn.setText("Rec");
+          Utils.SAVE_PREVIEW_BITMAP = false;
+        } else {
+          mRecbtn.setTextColor(Color.BLACK);
+          mRecbtn.setText("Stop");
+          Utils.SAVE_PREVIEW_BITMAP = true;
+        }
       }
     });
-//    topChkService = new Intent(getApplicationContext(), TopCheckService.class);
-//    startService(topChkService);
   }
 
   @Override

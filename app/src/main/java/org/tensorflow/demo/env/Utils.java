@@ -15,6 +15,8 @@ import java.util.TreeMap;
 
 public class Utils {
 
+    public static boolean SAVE_PREVIEW_BITMAP = false;
+
     public static String getTopActivity(Context mContext) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             //For third party app, bcz cannot use Activity Manager.

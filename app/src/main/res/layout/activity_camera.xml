@@ -21,10 +21,14 @@
     android:background="#000"
     tools:context="org.tensorflow.demo.CameraActivity">
     <Button
-        android:id="@+id/switch_btn"
-        android:text="switch"
+        android:id="@+id/rec_btn"
+        android:text="Rec"
+        android:textColor="@android:color/holo_red_light"
         android:layout_gravity="right"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:visibility="gone"/>
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/white"
+        />
+
 </FrameLayout>

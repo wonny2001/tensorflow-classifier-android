@@ -16,10 +16,7 @@
 
 package org.tensorflow.demo;
 
-import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -50,8 +47,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.Vector;
 import org.tensorflow.demo.OverlayView.DrawCallback;
 import org.tensorflow.demo.env.BorderedText;
@@ -111,8 +106,6 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 //          "file:///android_asset/retrained_graph.pb"; // or optimized_graph.pb
 //  private static final String LABEL_FILE =
 //          "file:///android_asset/retrained_labels.txt";
-
-  private static final boolean SAVE_PREVIEW_BITMAP = true;
 
   private static final boolean MAINTAIN_ASPECT = true;
 
@@ -276,8 +269,15 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     canvas.drawBitmap(bb, null, new Rect(0,0,INPUT_SIZE,INPUT_SIZE), null);
 
     // For examining the actual TF input.
-    if (SAVE_PREVIEW_BITMAP) {
-      ImageUtils.saveBitmap(bb);
+    Log.e("TW", "SAVE_PREVIEW_BITMAP : "+Utils.SAVE_PREVIEW_BITMAP);
+    if (Utils.SAVE_PREVIEW_BITMAP) {
+
+      Calendar cal = Calendar.getInstance();
+      SimpleDateFormat sdf = new SimpleDateFormat("YYMMdd_HHmmsss");
+      String date = sdf.format(cal.getTime());
+      ImageUtils.saveBitmap(bb, "preview_" + date + ".png");
+    } else {
+
     }
 
     runInBackground(
@@ -460,9 +460,9 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
                 Log.e("TW", "item : "+item);
                 Calendar cal = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("YYMMdd_HHmmsss");
-                String test = sdf.format(cal.getTime());
+                String date = sdf.format(cal.getTime());
 
-                outFileName = items[item].toString() + "_" + test + "_line_" + mFileCnt + ".csv";
+                outFileName = items[item].toString() + "_" + date + "_line_" + mFileCnt + ".csv";
 
                 Log.e("TW", "outFileName : "+outFileName);
               }

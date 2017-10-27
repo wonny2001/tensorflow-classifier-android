@@ -130,9 +130,15 @@ public class RecognitionScoreView extends View implements ResultsView {
     Paint mBoxPaint;
 
     mBoxPaint = new Paint();
-    mBoxPaint.setColor(Color.BLUE);
+
     mBoxPaint.setStyle(Paint.Style.STROKE);
-    mBoxPaint.setStrokeWidth(5);
+    if( Utils.SAVE_PREVIEW_BITMAP) {
+      mBoxPaint.setColor(Color.RED);
+      mBoxPaint.setStrokeWidth(15);
+    } else {
+      mBoxPaint.setColor(Color.BLUE);
+      mBoxPaint.setStrokeWidth(5);
+    }
 
     float wh = 550;
     float left = 240;
